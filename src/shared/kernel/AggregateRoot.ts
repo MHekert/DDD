@@ -18,6 +18,7 @@ export abstract class AggregateRoot<T> extends Entity<T> {
     DomainEvents.markAggregateForDispatch(this);
   }
 
+
   public clearEvents () {
     this._domainEvents = [];
   }

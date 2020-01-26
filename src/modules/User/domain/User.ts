@@ -1,8 +1,9 @@
 import { AggregateRoot } from '../../../shared/kernel/AggregateRoot';
 import validator from 'validator';
-import { Exceptions } from '../exceptions/UserExceptions';
+import { UserExceptions } from '../exceptions/UserExceptions';
 import * as events from '../events';
 import { Password } from './Password';
+import { Exceptions } from '../../../shared/exceptions/Exceptions';
 
 export interface UserProperties {
   firstName: string;
@@ -21,12 +22,9 @@ export class User extends AggregateRoot<UserProperties> {
     return this.props;
   }
 
-  // set value(props: UserProperties) {
-  //   this.props = props;
-  // }
   private static validate(props: UserProperties) {
     if (!validator.isEmail(props.email))
-      throw new Exceptions.notValidEmail();
+      throw new UserExceptions.notValidEmail();
 
     if (validator.isEmpty(props.lastName))
       throw new Exceptions.emptyProperty('email');
@@ -46,20 +44,20 @@ export class User extends AggregateRoot<UserProperties> {
     const user = new this(props, id);
 
     if (!Boolean(id)) 
-      user.addDomainEvent(new events.UserCreatedEvent(user))
+      user.addDomainEvent(new events.UserCreatedEvent(user));
     
     return user;
   }
 
   public delete() {
-    this.addDomainEvent(new events.UserDeletedEvent(this))
+    this.addDomainEvent(new events.UserDeletedEvent(this));
   }
 
   public edit(props: UserProperties) {
     User.validate(props);
 
-    const user = new User(props, this.id)
-    this.addDomainEvent(new events.UserEditedEvent(user))
+    const user = new User(props, this.id);
+    this.addDomainEvent(new events.UserEditedEvent(user));
     return user;
   }
 }

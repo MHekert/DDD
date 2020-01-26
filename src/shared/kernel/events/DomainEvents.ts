@@ -15,7 +15,7 @@ export class DomainEvents {
   }
 
   private static removeAggregateFromMarkedDispatchList (aggregate: AggregateRoot<any>) {
-    this.markedAggregates.filter(agg => agg.equals(aggregate));
+    this.markedAggregates = this.markedAggregates.filter(agg => !agg.equals(aggregate));
   }
 
   private static findMarkedAggregateByID (id: string) {
@@ -24,7 +24,6 @@ export class DomainEvents {
 
   public static dispatchEventsForAggregate (id: string) {
     const aggregate = this.findMarkedAggregateByID(id);
-
     if (aggregate) {
       this.dispatchAggregateEvents(aggregate);
       aggregate.clearEvents();
@@ -39,16 +38,15 @@ export class DomainEvents {
     this.handlersMap[eventClassName].push(callback);
   }
 
-  public static clearHandlers(): void {
+  public static clearHandlers() {
     this.handlersMap = {};
   }
 
-  public static clearMarkedAggregates(): void {
+  public static clearMarkedAggregates() {
     this.markedAggregates = [];
   }
 
-
-  private static dispatch (event: IDomainEvent): void {
+  private static dispatch (event: IDomainEvent) {
     const eventClassName = event.constructor.name;
     if (this.handlersMap.hasOwnProperty(eventClassName))
       this.handlersMap[eventClassName]

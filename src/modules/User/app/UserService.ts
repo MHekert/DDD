@@ -1,7 +1,7 @@
 import { UserMemoryRepository } from '../respository/UserMemoryRepository'
 import { UserDTO } from '../UserMapper';
 
-import { Exceptions } from '../exceptions/UserExceptions';
+import { Exceptions } from '../../../shared/exceptions/Exceptions'
 import { DomainEvents } from 'src/shared/kernel/events/DomainEvents';
 import { UserProperties } from '../domain/User';
 

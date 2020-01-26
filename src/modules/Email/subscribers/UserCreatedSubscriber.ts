@@ -18,6 +18,6 @@ export class SendEmailOnUserCreated implements IEventHandle {
   private async onUserCreatedEvent (event: UserCreatedEvent){
     const { item } = event;
 
-    this.emailService.sendEmail(item.props.email)
+    this.emailService.sendEmail(item.props.email);
   }
 }

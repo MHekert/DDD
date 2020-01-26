@@ -6,7 +6,6 @@ export const handler = async (req: fastify.FastifyRequest<http.IncomingMessage>,
 	try {
 		const { body } = req;
 		const user = await userService.create(body);
-		console.log(await userService.get())
 		reply.send(user);
 	} catch (error) {
 		reply.send(error);

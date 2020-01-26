@@ -1,6 +1,7 @@
 import validator from 'validator';
-import { Exceptions } from '../exceptions/UserExceptions';
 import bcrypt from 'bcrypt';
+import { UserExceptions } from '../exceptions/UserExceptions';
+import { Exceptions } from '../../../shared/exceptions/Exceptions';
 
 const passwordRegex = '^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})';
 
@@ -17,13 +18,13 @@ export class Password {
 
   public static create(password: string, plain = false) {
     if (!password) 
-      throw new Exceptions.emptyProperty('Password');
+      throw new Exceptions.emptyProperty('password');
 
     if (!validator.isLength(password, { min: 6 }))
-      throw new Exceptions.tooShortPassword();
+      throw new Exceptions.propertyTooShort('password');
 
     if (!validator.matches(password, passwordRegex))
-      throw new Exceptions.notComplexPassword();
+      throw new UserExceptions.notComplexPassword();
 
     if (!plain) 
       return new this(password);
