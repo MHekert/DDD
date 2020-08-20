@@ -7,7 +7,7 @@
     "start": "ts-node -r tsconfig-paths/register --project ./tsconfig.json ./src"
   },
   "dependencies": {
-    "bcrypt": "^3.0.7",
+    "bcrypt": "^5.0.0",
     "fastify": "^2.11.0",
     "lodash": "^4.17.15",
     "nodemon": "^2.0.2",
